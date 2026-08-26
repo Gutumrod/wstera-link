@@ -1,0 +1,34 @@
+﻿# OS / editor
+.DS_Store
+Thumbs.db
+
+# local environment / secrets
+.env
+.env.*
+!.env.example
+.dev.vars
+*.pem
+*.p12
+*.pfx
+
+# dependencies / build output
+node_modules/
+.next/
+out/
+build/
+coverage/
+test-results/
+playwright-report/
+.wrangler/
+
+# Python local artifacts
+__pycache__/
+.pytest_cache/
+.venv/
+
+# local agent settings / logs
+.claude/settings.local.json
+*.log
+
+# local pre-sync safety backups; canonical docs live in docs/
+docs-pre-sync-*/
