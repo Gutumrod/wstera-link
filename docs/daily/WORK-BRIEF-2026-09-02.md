@@ -2,10 +2,10 @@
 
 **Product:** WSTERA Link (LK01)
 **Priority / scheduling:** TODAY DOC RECONCILIATION / IMPLEMENTATION HOLD
-**Baseline:** $branch @ a1e9a2c
+**Baseline:** `docs/hybrid-billing-promptpay` @ `3d46eee` (brief written at baseline `a1e9a2c`)
 
 ## Current State
-Pre-build product. Working branch docs/hybrid-billing-promptpay contains uncommitted PRD/architecture amendments plus ADR-001 for hybrid billing/PromptPay. No production application code exists.
+Pre-build product. Branch `docs/hybrid-billing-promptpay` @ `3d46eee` carries the committed PRD/architecture amendments plus ADR-001 for hybrid billing/PromptPay; working tree clean, in sync with origin. No production application code exists.
 
 ## Objective Today / Next Activation
 Billing documentation reconciliation is complete. Hold implementation. The next activation is Phase 0 intake only after portfolio gates authorize LK01; Phase 4 billing later must follow centralized billing-core, provider preflight and reconciliation-before-PromptPay.
