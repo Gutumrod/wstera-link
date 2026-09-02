@@ -21,8 +21,8 @@ Scope: event normalization, bot rules, attribution, daily aggregates, atomic usa
 Gate: concurrency cannot bypass quota; analytics failure never blocks redirect.
 
 ## Phase 4 — Subscription & Billing
-Scope: plan/entitlement persistence, subscription module, payment adapter, webhook verification/replay protection, lifecycle/grace/cancel flows, billing audit.
-Gate: no unverified entitlement grant; duplicate/out-of-order events safe.
+Scope: centralized billing-core client boundary, local product-bound entitlement snapshot, Card recurring checkout, PromptPay manual-renewal checkout, signed/idempotent entitlement sync, lifecycle/grace/cancel flows, reconciliation evidence and billing audit. Billing-specific vendored module copies are not the Phase 4 authority.
+Gate: no unverified entitlement grant; duplicate/out-of-order events safe; Card recurring E2E passes; PromptPay cannot open until scheduled reconciliation/provider re-fetch and amount/currency/account/product matching pass.
 
 ## Phase 5 — Paid Product Features
 Scope: campaigns, UTM builder, custom domains via current Cloudflare for SaaS capability, CSV export, Business API/webhooks, team access.

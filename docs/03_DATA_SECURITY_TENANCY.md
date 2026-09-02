@@ -16,6 +16,12 @@
 - Service-role operations are server-only and narrowly scoped.
 - Cross-tenant negative tests cover direct select, insert, update, delete, RPC, export, guessed IDs and API routes.
 
+## Billing Trust Boundary
+- WSTERA Link never holds billing-core database credentials or Stripe secret keys.
+- LK01 uses a product-bound server credential to call centralized billing-core control-plane routes; a credential for LK01 cannot select another product identity.
+- Billing-core/provider events are not sufficient merely because they arrived: signature, replay/idempotency and provider reconciliation rules must pass before local entitlement snapshot changes.
+- Browser return state, client-supplied account/product IDs and redirect-query data cannot grant entitlement.
+- Billing-core is never called synchronously from the public redirect hot path.
 ## Sensitive Data
 - Secrets: provider keys, service-role keys, webhook secrets, signing secrets and domain-provider credentials.
 - Secrets come from runtime env/secret store, never source code, client bundles, audit payloads or raw logs.

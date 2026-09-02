@@ -31,10 +31,12 @@ V1 launches without promotional trial unless separately approved later.
 - Upgrade only after verified provider event and persisted authoritative subscription transition.
 - Existing current-period usage carries forward; upgrade raises ceiling, it does not erase usage.
 
-## Payment Failure
-- `past_due` starts a 7-day grace period.
-- During grace, existing paid features/redirects remain usable and UI requests payment recovery.
-- Grace expiry without recovery transitions to Free enforcement.
+## Payment Failure / Manual Renewal
+- **Card recurring rail:** automatic-collection failure enters `past_due` and the existing 7-day recovery grace.
+- **PromptPay manual rail:** there is no auto-renew. Before `paid_through`, show/send renewal reminders. If no verified renewal exists at expiry, LK01 allows a 3-day post-expiry grace, then transitions to Free enforcement while preserving account/history.
+- During either applicable grace, existing paid product features remain available according to the persisted entitlement snapshot and UI requests recovery/renewal.
+- A successful recovery/renewal is authoritative only after billing-core's verified, idempotent transition and reconciliation rules succeed.
+- Custom-domain downgrade grace below is a separate 7-day routing policy that begins when the tenant actually transitions to Free; it is not the PromptPay payment grace.
 
 ## Cancellation
 Cancel-at-period-end keeps paid entitlement through paid-through timestamp, then transitions to Free unless reactivated authoritatively.
@@ -53,4 +55,4 @@ Paid→Free gives 7-day domain-routing grace. During grace routing continues but
 Admin-only, time-bounded where possible, auditable, reason-required, never client-supplied. Permanent commercial exceptions require an explicit plan/contract decision.
 
 ## Authority
-Provider webhook + persisted subscription transition is authoritative. Browser return pages/query parameters/client metadata cannot grant entitlement. Duplicate/out-of-order events must be idempotent and cannot regress newer valid state.
+Stripe is provider money truth; centralized billing-core owns normalized payment/subscription orchestration and reconciliation; LK01 consumes the resulting product-bound entitlement snapshot. Browser return pages/query parameters/client metadata cannot grant entitlement. Duplicate/out-of-order events must be idempotent and cannot regress newer valid state.

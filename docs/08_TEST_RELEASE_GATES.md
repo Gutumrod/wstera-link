@@ -20,6 +20,7 @@
 - [ ] Service-role secret absent from browser bundle.
 - [ ] Invalid webhook signature denied.
 - [ ] Replay/duplicate provider event safe.
+- [ ] LK01 billing-core credential cannot act as another product/account outside its authenticated scope.
 - [ ] Reserved/unsafe slug and destination inputs rejected.
 
 ## Redirect Gate
@@ -33,7 +34,9 @@
 - [ ] Free/Pro/Business limits match `04_PRICING_ENTITLEMENTS.md`.
 - [ ] Free quota exhaustion preserves redirect.
 - [ ] Upgrade requires authoritative provider event.
-- [ ] 7-day payment grace verified.
+- [ ] Card recurring failure -> 7-day recovery grace verified.
+- [ ] PromptPay manual non-renewal -> reminders + 3-day post-expiry grace -> Free enforcement verified.
+- [ ] PromptPay payment recovery is reconciliation-backed (provider re-fetch + expected product/account/amount/currency match), not webhook/return-page-only.
 - [ ] Cancel-at-period-end verified.
 - [ ] Downgrade over-limit behavior verified.
 - [ ] Custom-domain grace verified.

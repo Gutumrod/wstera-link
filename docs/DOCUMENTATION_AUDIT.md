@@ -1,6 +1,6 @@
 # WSTERA Link — Documentation Consistency Audit
 
-**Date:** 2026-08-26  
+**Date:** 2026-08-26
 **Verdict:** **PASS — READY TO QUEUE BUILD**
 
 ## Cross-Document Checks
@@ -29,3 +29,16 @@ Documentation is sufficient to start **Phase 0 only**. Any scope-changing discov
 - Legacy `Extended/unlimited` pricing wording: 0 matches.
 
 **Final verdict:** PASS — documentation pack is complete and may be used to schedule Phase 0.
+
+## 2026-09-02 Billing Reconciliation Addendum
+
+The 2026-08-26 PASS above is historical evidence for the pre-ADR document pack. A later owner/payment-council decision changed billing details without invalidating the rest of the product contract. Current billing documents are now reconciled as follows:
+
+- centralized `billing-core` is the shared billing implementation boundary; LK01 does not build a parallel Stripe subscription core;
+- Card/Stripe Subscription is automatic recurring and retains the existing 7-day card-recovery grace;
+- PromptPay is manual/non-auto-renew and uses a 3-day post-expiry payment grace before Free enforcement for LK01;
+- custom-domain downgrade retains its separate 7-day routing grace after Free transition;
+- PromptPay release requires provider preflight plus reconciliation/re-fetch and product/account/amount/currency matching;
+- billing-specific vendored module copies are historical/reference material, not the Phase 4 build authority.
+
+This addendum updates current truth without pretending the 2026-08-26 reviewer had reviewed a later ADR.

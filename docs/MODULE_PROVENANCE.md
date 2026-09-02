@@ -1,13 +1,15 @@
 # WSTERA Link — Vendored Module Provenance
 
-**Vendored on:** 2026-08-26  
-**Upstream source:** `D:\AI-Workspace\projects\modules-hub`  
-**Upstream HEAD:** `db441ce1c5fea8ececdf56690889a0648d954f9a`  
+**Vendored on:** 2026-08-26
+**Upstream source:** `D:\AI-Workspace\projects\modules-hub`
+**Upstream HEAD:** `db441ce1c5fea8ececdf56690889a0648d954f9a`
 **Upstream status at copy time:** clean
 
 ## Mandatory Rule
 `modules-hub` is read-only upstream. All WSTERA-specific integration/adapters/fixes happen only in the product copy. Do not edit Module Hub to make WSTERA Link work.
 
+## 2026-09-02 Billing Disposition
+The parent portfolio subsequently locked centralized `billing-core`. Therefore the vendored `subscription`, `payment`, and `webhook-receiver` copies below are **historical/reference provenance**, not the Phase 4 billing build source. Do not extend them into a product-owned Stripe state machine. Other copied modules remain local product copies subject to this provenance rule unless a later architecture decision replaces them.
 ## Vendored Modules
 | Module | Version | Product role |
 |---|---:|---|

@@ -23,8 +23,10 @@ Free allows one lifetime destination change per link; paid allows unlimited subj
 Dashboard warns near quota. At limit, link still redirects. Analytics UI clearly states tracking paused until reset/upgrade. Upgrade CTA must not imply links are broken.
 
 ## Upgrade
-Pricing → choose plan → provider checkout → return to pending/success UI → server waits for authoritative provider event → subscription transitions → UI refreshes authoritative entitlement.
+Pricing -> choose plan -> choose Card or PromptPay -> WSTERA Link requests checkout from centralized billing-core -> provider checkout/QR -> return to pending/success UI -> billing-core verifies provider event and reconciliation requirements -> product-bound entitlement snapshot updates -> UI refreshes authoritative entitlement.
 
+## PromptPay Renewal
+PromptPay user sees `paid_through` + advance reminder -> starts a fresh billing-core PromptPay checkout -> scans provider-generated QR -> UI remains pending until provider truth is verified/reconciled -> successful period extension appears exactly once. If unpaid at expiry, 3-day payment grace applies before Free enforcement; account/history are preserved.
 ## Cancel/Downgrade
 User sees paid-through date, resulting Free limits, over-limit behavior and custom-domain grace before confirming cancellation.
 

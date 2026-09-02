@@ -1,7 +1,7 @@
 # WSTERA Link — Product Requirements Document
 
-**Status:** LOCKED pre-build baseline  
-**Date:** 2026-08-26
+**Status:** LOCKED pre-build baseline - amended by `ADR-001` and centralized billing-core reconciliation
+**Date:** 2026-09-01
 
 ## 1. Product Scope
 Production SaaS replacing the local Python prototype with a multi-tenant, Cloudflare-first TypeScript product.
@@ -46,9 +46,11 @@ Production SaaS replacing the local Python prototype with a multi-tenant, Cloudf
 - **FR-BILL-001:** Plan keys: `free`, `pro`, `business`.
 - **FR-BILL-002:** Prices: Free ฿0, Pro ฿199/month, Business ฿590/month.
 - **FR-BILL-003:** Paid entitlement is granted only after verified authoritative provider event + persisted subscription transition.
-- **FR-BILL-004:** Payment failure enters 7-day grace before Free enforcement.
+- **FR-BILL-004:** Card automatic-collection failure enters the existing 7-day recovery grace before Free enforcement. PromptPay manual non-renewal uses a 3-day post-expiry grace before Free enforcement.
 - **FR-BILL-005:** Cancel-at-period-end preserves paid rights until paid-through timestamp.
 - **FR-BILL-006:** Browser checkout success state is never authoritative.
+- **FR-BILL-007:** WSTERA Link integrates with the portfolio centralized billing-core; it does not run a separate product-owned Stripe subscription state machine or treat vendored payment/subscription modules as authoritative billing infrastructure.
+- **FR-BILL-008:** PromptPay cannot grant entitlement until billing-core has verified/re-fetched provider truth, matched product/account/amount/currency, and applied the transition idempotently; reconciliation must exist before PromptPay release.
 
 ### Paid Features
 - **FR-PAID-001:** Pro/Business: campaign grouping, UTM builder, custom domain, unlimited destination edits, CSV export.

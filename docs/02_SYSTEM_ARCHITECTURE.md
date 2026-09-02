@@ -1,7 +1,7 @@
 # WSTERA Link — System Architecture
 
-**Status:** LOCKED pre-build baseline  
-**Date:** 2026-08-26
+**Status:** LOCKED pre-build baseline â€” amended by `ADR-001`
+**Date:** 2026-09-01
 
 ## Runtime Topology
 ```text
@@ -46,14 +46,37 @@ Destination mutation must invalidate/purge or advance a version so stale routes 
 4. Analytics failure is logged/observable but does not change a successful redirect response.
 
 ## Billing Flow
-```text
-Checkout -> Provider
-Provider webhook -> verified raw event -> idempotency/replay guard
--> normalized payment/subscription event -> subscription state transition
--> entitlement becomes authoritative -> audit event
-```
-The browser return URL can display pending/success UI but cannot grant entitlement.
+V1 uses the portfolio **centralized billing-core** with one entitlement contract and two Stripe payment rails. WSTERA Link does not own a separate Stripe subscription orchestrator.
 
+```text
+WSTERA Link control plane
+        |
+        | per-product authenticated billing-core call
+        v
+Central billing-core / thin orchestrator
+        |
+        +--> Card checkout -> Stripe Subscription recurring rail
+        |
+        +--> PromptPay checkout -> fresh QR / manual renewal rail
+                          |
+                          v
+         verified provider event + durable idempotency/outbox
+                          |
+               scheduled reconciliation / re-fetch
+                          |
+          normalized subscription/payment transition
+                          |
+             LK01 entitlement snapshot sync
+```
+
+- Card may renew automatically through Stripe Billing.
+- PromptPay is user-initiated for each renewal period and must never be described as auto-renew.
+- PromptPay non-renewal receives the owner-approved reminder flow and a 3-day post-expiry grace before Free enforcement for LK01.
+- A PromptPay renewal extends the purchased period exactly once. Duplicate/replayed/out-of-order events cannot extend entitlement twice.
+- **Reconciliation is mandatory before PromptPay activation:** provider truth is re-fetched/polled and product/account/amount/currency are matched before entitlement mutation.
+- The browser return URL can display pending/success UI but cannot grant entitlement.
+- The redirect hot path never calls billing-core synchronously. LK01 uses a bounded local entitlement snapshot for control-plane feature enforcement; redirect availability remains independent of billing availability.
+- The billing-specific vendored `payment` / `subscription` / `webhook-receiver` copies are historical/reference material after the centralized billing-core decision and are not the Phase 4 build source.
 ## Custom Domains
 Use Cloudflare for SaaS exact custom hostnames with ownership/certificate validation. V1 supports customer hostnames/subdomains; apex behavior is not promised unless the chosen Cloudflare capability supports the customer's DNS case.
 Custom-domain integration belongs to Phase 5 and must be re-verified against current Cloudflare limits before implementation.
